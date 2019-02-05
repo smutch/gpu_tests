@@ -1,4 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
+
+set(CMAKE_C_COMPILER "icc")
+set(CMAKE_CXX_COMPILER "icpc")
+
 project(gpu_tests)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -9,7 +13,7 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -march=native")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -wd3802")
 
 find_package(CUDA REQUIRED)
 
