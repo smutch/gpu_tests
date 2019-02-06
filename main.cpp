@@ -23,7 +23,8 @@ void init_cuda()
     int world_rank = -1;
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
-    struct cudaDeviceProp properties; // Properties of this context's assigned device
+    struct cudaDeviceProp properties;
+    int device = -1;
 
     try {
         // get the number of devices available to this rank
@@ -37,7 +38,6 @@ void init_cuda()
         throw_on_cuda_error(cudaFree(0));
 
         // Get the device assigned to this context
-        int device = -1;
         throw_on_cuda_error(cudaGetDevice(&device));
 
         // Get the properties of the device assigned to this context
@@ -47,8 +47,7 @@ void init_cuda()
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
-    if (world_rank == 0)
-        std::cout << "CUDA initialization completed successfully on " << properties.name << "..." << std::endl;
+    std::cout << "Rank " << world_rank << ": CUDA initialization completed successfully on " << properties.name << "[device=" << device << "] ..." << std::endl;
 }
 
 int main(int argc, char *argv[])

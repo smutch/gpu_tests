@@ -4,7 +4,6 @@
 #SBATCH --output=%x-%j.out
 #SBATCH --error=%x-%j.err
 #SBATCH --time=00:01:00
-# SBATCH --reservation=smutch_old
 #
 #SBATCH --nodes=1
 #SBATCH --tasks-per-node=2
