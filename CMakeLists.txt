@@ -38,7 +38,10 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CUDA_EXE_LINKER_FLAGS}")
 
 # Add the Meraxes lib to the project
 set(CUDA_LINK_LIBRARIES_KEYWORD PRIVATE)
-cuda_add_executable(gpu_tests main.cpp init_cuda.cu)
+cuda_add_library(libgpu_tests init_cuda.cu)
 
 find_package(MPI REQUIRED)
-target_link_libraries(gpu_tests PUBLIC MPI::MPI_C)
+target_link_libraries(libgpu_tests PRIVATE MPI::MPI_C)
+
+add_executable(gpu_tests main.cpp)
+target_link_libraries(gpu_tests PRIVATE libgpu_tests)
