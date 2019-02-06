@@ -4,7 +4,6 @@
 #include <string>
 #include <sstream>
 
-
 #define throw_on_cuda_error(cuda_code) \
 { \
 _throw_on_cuda_error((cuda_code), __FILE__, __func__, __LINE__); \
@@ -48,12 +47,4 @@ void init_cuda()
 
     MPI_Barrier(MPI_COMM_WORLD);
     std::cout << "Rank " << world_rank << ": CUDA initialization completed successfully on " << properties.name << "[device=" << device << "] ..." << std::endl;
-}
-
-int main(int argc, char *argv[])
-{
-    MPI_Init(&argc, &argv);
-    init_cuda();
-    MPI_Finalize();
-    return 0;
 }

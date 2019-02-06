@@ -13,6 +13,7 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -march=native")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd3802")  # TODO: Check this out
 
 find_package(CUDA REQUIRED)
 
@@ -37,7 +38,7 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CUDA_EXE_LINKER_FLAGS}")
 
 # Add the Meraxes lib to the project
 set(CUDA_LINK_LIBRARIES_KEYWORD PRIVATE)
-cuda_add_executable(gpu_tests main.cu)
+cuda_add_executable(gpu_tests main.cpp init_cuda.cu)
 
 find_package(MPI REQUIRED)
 target_link_libraries(gpu_tests PUBLIC MPI::MPI_C)
