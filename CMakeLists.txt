@@ -7,8 +7,14 @@ project(gpu_tests)
 
 set(CMAKE_CXX_STANDARD 17)
 
+# output paths
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
 set(CMAKE_SKIP_BUILD_RPATH FALSE)
-set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE) 
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+# set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -march=native")
@@ -37,11 +43,19 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CUDA_C_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CUDA_EXE_LINKER_FLAGS}")
 
 # Add the Meraxes lib to the project
-set(CUDA_LINK_LIBRARIES_KEYWORD PRIVATE)
-cuda_add_library(libgpu_tests init_cuda.cu)
+set(CUDA_LINK_LIBRARIES_KEYWORD PUBLIC)
+cuda_add_library(libgpu_tests init_cuda.cu SHARED)
+set_target_properties(libgpu_tests PROPERTIES
+    OUTPUT_NAME gpu_tests)
 
 find_package(MPI REQUIRED)
-target_link_libraries(libgpu_tests PRIVATE MPI::MPI_C)
+target_link_libraries(libgpu_tests INTERFACE MPI::MPI_C)
 
 add_executable(gpu_tests main.cpp)
 target_link_libraries(gpu_tests PRIVATE libgpu_tests)
+# install(TARGETS gpu_tests libgpu_tests
+    # RUNTIME DESTINATION bin
+    # LIBRARY DESTINATION lib
+    # ARCHIVE DESTINATION lib)
+
+add_subdirectory("wrapper")
