@@ -20,4 +20,4 @@ printf "mpiexec :: $(which mpiexec)\n\n"
 
 export OMP_NUM_THREADS=1
 export OMPI_MCA_mpi_warn_on_fork=0
-srun build/gpu_tests
+srun $HOME/bin/mps-wrapper build/gpu_tests
