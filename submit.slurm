@@ -20,4 +20,8 @@ printf "mpiexec :: $(which mpiexec)\n\n"
 
 export OMP_NUM_THREADS=1
 export OMPI_MCA_mpi_warn_on_fork=0
-srun $HOME/bin/mps-wrapper build/gpu_tests
+
+# srun $HOME/bin/mps-wrapper build/bin/gpu_tests
+# srun build/bin/gpu_tests
+# srun $HOME/bin/mps-wrapper python -m mpi4py test.py
+srun python -m mpi4py test.py

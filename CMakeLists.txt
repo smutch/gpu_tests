@@ -20,6 +20,7 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -march=native")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd3802")  # TODO: Check this out
+set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -arch=sm_60")
 
 find_package(CUDA REQUIRED)
 
@@ -27,11 +28,13 @@ find_package(CUDA REQUIRED)
 set(CUDA_HOST_COMPILER ${CMAKE_CXX_COMPILER})
 set(CUDA_PROPAGATE_HOST_FLAGS ON)
 
+# ****************************************************************************
 # THE MAGIC LINES! ###########################################################
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pie")
-set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -arch=sm_60 --compiler-options -fPIC")
+set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} --compiler-options -fPIC")
 ##############################################################################
+# ****************************************************************************
 
 ################################################################################
 # This ugly hack is needed to work around a bug in the fftw3.h header file
